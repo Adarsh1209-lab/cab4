@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Cab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Book Your Cab</h2>
+  <form id="bookingForm">
+    <input type="text" name="name" placeholder="Your Name" required><br>
+    <input type="text" name="phone" placeholder="Phone Number" required><br>
+    <input type="text" name="pickup" placeholder="Pickup Location" required><br>
+    <input type="text" name="drop" placeholder="Drop Location" required><br>
+    <input type="datetime-local" name="datetime" required><br>
+    <button type="submit">Book Now</button>
+  </form>
+
+  <p id="response"></p>
+
+  <script>
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      const res = await fetch('https://your-backend-url.onrender.com/book', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      document.getElementById('response').innerText = result.message;
+    });
+  </script>
+</body>
+</html>
